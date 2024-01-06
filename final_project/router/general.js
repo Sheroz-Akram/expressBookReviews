@@ -10,21 +10,6 @@ function getBooks() {
   })
 }
 
-// Get all books based on title
-public_users.get('/title/:title', function (req, res) {
-  const title = req.params.title
-  getBooks()
-    .then(rows => Object.values(rows))
-    .then(books => books.filter((book) => book.title === title))
-    .then(filteredBooks => res.send(filteredBooks))
-});
-
-//  Get book review
-public_users.get('/review/:isbn', function (req, res) {
-  const isbn = req.params.isbn
-  return res.send(JSON.stringify(books[isbn]['reviews'], null, 4))
-});
-
 function getBookByISBN(isbn) {
   return new Promise((resolve, reject) => {
     const isbnNumber = parseInt(isbn)
@@ -77,6 +62,21 @@ public_users.get('/author/:author', function (req, res) {
     .then(rows => Object.values(rows))
     .then(books => books.filter((book) => book.author === author))
     .then(filteredBooks => res.send(filteredBooks))
+});
+
+// Get all books based on title
+public_users.get('/title/:title', function (req, res) {
+  const title = req.params.title
+  getBooks()
+    .then(rows => Object.values(rows))
+    .then(books => books.filter((book) => book.title === title))
+    .then(filteredBooks => res.send(filteredBooks))
+});
+
+//  Get book review
+public_users.get('/review/:isbn', function (req, res) {
+  const isbn = req.params.isbn
+  return res.send(JSON.stringify(books[isbn]['reviews'], null, 4))
 });
 
 module.exports.general = public_users;
